@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import MySQLdb
 import uuid
-import random
+#import random
 
 class xiechengDAO(object):
     def __init__(self,host="*********",user="******",password="123443", db="ctrip_info"
