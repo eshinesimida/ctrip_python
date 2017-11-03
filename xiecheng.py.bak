@@ -1,0 +1,68 @@
+# -*- coding: utf-8 -*-
+import MySQLdb
+import uuid
+import random
+
+class xiechengDAO(object):
+    def __init__(self,host="rm-wz988to0p0a7js870o.mysql.rds.aliyuncs.com",user="root",password="zd45+3=48", db="ctrip_gengxin"
+                         ):
+        self.host = host
+        self.db = db
+        self.user = user
+        self.password = password
+
+
+
+    def savehotellink(self,listPageInfo):
+        db = MySQLdb.connect(self.host,self.user,self.password,self.db,use_unicode=1,charset='utf8')
+        cursor = db.cursor()
+        for hotel in listPageInfo:
+            try:
+                    id = uuid.uuid1()
+                    cursor.execute("insert IGNORE into A_ctrip(jingqu,province,href,author,ID,jingse,quwei,xingjiabi,comment,time,class)values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)" ,
+                                   (hotel["jingqu"],hotel["province"],hotel["url"],hotel["author"],hotel["ID"],hotel["jingse"],hotel["quwei"],hotel["xingjiabi"],hotel["comment"],hotel["time"],hotel["class"]))
+            except Exception,e:
+                print hotel["url"]
+        db.commit()
+        cursor.close()
+        db.close()
+
+    def _return(self):
+        db = MySQLdb.connect(self.host,self.user,self.password,self.db,use_unicode=1,charset='utf8')
+        cursor = db.cursor()
+
+        cursor.execute("SELECT * FROM A_ctrip where sex is null")
+
+        rows = cursor.fetchall()
+        return rows
+
+        db.commit()
+        cursor.close()
+        db.close()
+
+    def savehotelCommentinfo(self,items):
+        db = MySQLdb.connect(self.host,self.user,self.password,self.db,use_unicode=1,charset='utf8')
+        cursor = db.cursor()
+        for item in items:
+
+            try:
+                cursor.execute("update A_ctrip set sex = %s ,level = %s,place = %s,joint_time = %s,follow = %s,fans = %s where href = %s" ,
+                               (item["sex"],item["level"],item["place"],item["joint_time"],item["follow"],item["fans"],item["url"]))
+            except :
+                print item
+        db.commit()
+        cursor.close()
+        db.close()
+
+    def _returncomment(self):
+        db = MySQLdb.connect(self.host,self.user,self.password,self.db,use_unicode=1,charset='utf8')
+        cursor = db.cursor()
+
+        cursor.execute("SELECT * FROM hotelcommentinfo ")
+
+        rows = cursor.fetchall()
+        return rows
+
+        db.commit()
+        cursor.close()
+        db.close()
