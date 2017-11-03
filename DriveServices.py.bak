@@ -15,11 +15,7 @@ class XiechengDriverService(object):
         self.driver = webdriver.Chrome()
         #self.driver = webdriver.PhantomJS()
         self.xiechengDao = xiechengDAO()
-        # 存放列表页数据
-        self.listPageInfo = []
-        # 存放酒店详情数据
-        self.hotelItem = {}
-        # 存放酒店评论数据
+       
         self.commList = []
         #self.urls=['http://you.ctrip.com/sight/beijing1/234.html','http://you.ctrip.com/sight/beijing1/229.html','http://you.ctrip.com/sight/beijing1/231.html','http://you.ctrip.com/sight/yanqing770/230.html','http://you.ctrip.com/sight/beijing1/5174.html','http://you.ctrip.com/sight/beijing1/233.html','http://you.ctrip.com/sight/huairou120418/243.html']
         self.urls=[
@@ -31,19 +27,6 @@ class XiechengDriverService(object):
             'http://you.ctrip.com/sight/yunfu836/1408555.html',
             'http://you.ctrip.com/sight/yunfu836/73062.html',
             'http://you.ctrip.com/sight/xinxing2919/136197.html'
-
-
-
-
-
-
-
-
-
-
-
-
-
         ]
         # 打开携程首页
     def start(self):
@@ -89,17 +72,9 @@ class XiechengDriverService(object):
 
             time.sleep(3)
 
-            # target = self.driver.find_element_by_css_selector(
-            #     '#sightcommentbox > div:nth-child(10)')
-            # self.driver.execute_script("arguments[0].scrollIntoView();", target)
-            # time.sleep(3)
 
             response1 = HtmlResponse(url="my HTML string", body=self.driver.page_source, encoding="utf-8")
             num = response1.xpath('//b[@class = "numpage"]/text()').extract()[0]
-
-
-
-
             if u"有用" in self.driver.page_source:
 
                 if ifHandle == False:
@@ -112,8 +87,7 @@ class XiechengDriverService(object):
                     #print u"下一页" in self.driver.page_source
                     if u"下一页" in self.driver.page_source:
                         pageNum = pageNum - 1
-                        #self.driver.maximize_window()
-                        #self.driver.implicitly_wait(30)
+                      
                         self.driver.find_element_by_partial_link_text("下一页").click()
                         #self.driver.find_element_by_xpath("//div[@class='weiboitem active']/div[@class='comment_ctrip']/div[@class='ttd_pager cf']/div[@class='pager_v1']/a[@class='nextpage']").click()
                         ifHandle = False
@@ -150,9 +124,7 @@ class XiechengDriverService(object):
     def crawllianjie(self, page_sourse):
         #print page_sourse
         response = HtmlResponse(url="my HTML string", body=page_sourse, encoding="utf-8")
-        #/html/body/div[3]/div[1]/ul/li[4]/a/text()
-        #/html/body/div[3]/div[1]/ul/li[4]/a/text()
-        #/html/body/div[2]/div[1]/ul/li[4]/a/text()
+       
         #jingqu = response.xpath('//div[@class="content cf"]/div[@class="dest_toptitle detail_tt"]/div[@class="cf"]/div[@class="f_left"]/h1/a/text()').extract()[0]
         jingqu = response.xpath('//html/body/div[@class="content cf "]/div[2]/div/div[1]/h1/a/text()').extract()[0]
         province = response.xpath('//html/body/div[@class="content cf "]/div[1]/ul/li[4]/a/text()').extract()[0]
@@ -164,7 +136,7 @@ class XiechengDriverService(object):
         class2 = ''.join(class2)
         #/html/body/div[4]/div/div[2]/div[1]/ul/li[2]/span[2]
         #print A
-        # 获取每个酒店的链接
+        
         for B in A:
             url = B.xpath("ul/li[@class='pic_medal']/div[@class='hotel_pic']/a/@href").extract()
             author = B.xpath('div/span/a/text()').extract_first()
@@ -195,19 +167,13 @@ class XiechengDriverService(object):
             href = B.xpath('div/span/a[@href]').extract_first()
             href = href.split('"')[3]
             ID = B.xpath('ul/li[@class="from_link"]/span[@class="f_right"]/a[1]/@data-id').extract_first()
-            #ID = href.split('/')[2]
-            #print ID
-            #//*[@id="sightcommentbox"]/div[1]/ul/li[3]/span[2]/a[1]
+           
 
             href = 'http://you.ctrip.com' + href
             if(class2):
                 class2 = class2
             else:
                 class2 = ''
-
-            #print jingqu
-            #print author,jingse1,quwei,xingjiabi,comment,time
-
 
             self.listPageInfo.append({"jingqu":jingqu,"province":province,"url": href, "author": author, "ID": ID,"jingse":jingse1,"quwei":quwei,
                                       "xingjiabi":xingjiabi,"comment":comment,"time":time,'class':class2})
