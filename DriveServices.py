@@ -182,11 +182,7 @@ class XiechengDriverService(object):
         print len(self.listPageInfo)
         self.listPageInfo = []
 
-
-
-
-
-    def saveListPageInfo(self):
+	def saveListPageInfo(self):
         self.xiechengDao.savehotellink(self.listPageInfo)
 
     def depose(self):
@@ -195,6 +191,5 @@ class XiechengDriverService(object):
 if __name__=="__main__":
     xiechengService = XiechengDriverService()
     xiechengService.start()
-
     xiechengService.depose()
 

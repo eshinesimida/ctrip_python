@@ -8,14 +8,14 @@ import re
 import time
 import uuid
 import random
-from DAO.xiecheng import xiechengDAO
+from xiecheng import xiechengDAO
 
 class XiechengDriverService(object):
     def __init__(self):
         self.driver = webdriver.Chrome()
-        #self.driver = webdriver.PhantomJS()
+        
         self.xiechengDao = xiechengDAO()
-       
+        self.listPageInfo = []
         self.commList = []
         #self.urls=['http://you.ctrip.com/sight/beijing1/234.html','http://you.ctrip.com/sight/beijing1/229.html','http://you.ctrip.com/sight/beijing1/231.html','http://you.ctrip.com/sight/yanqing770/230.html','http://you.ctrip.com/sight/beijing1/5174.html','http://you.ctrip.com/sight/beijing1/233.html','http://you.ctrip.com/sight/huairou120418/243.html']
         self.urls=[
