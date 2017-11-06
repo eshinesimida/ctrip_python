@@ -54,7 +54,7 @@ class XiechengDriverService(object):
         self.driver.find_element_by_xpath('//*[@id="selectSort"]/ul/li[3]/a').click()
         time.sleep(random.uniform(3, 6))
 
-        
+        #self.crawllianjie(self.driver.page_source)
 
         #获取总页面数
         pageNum = 2800
